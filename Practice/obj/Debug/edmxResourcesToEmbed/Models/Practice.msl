@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="PracticeDbModelStoreContainer" CdmEntityContainer="PracticeDbEntities2">
+  <EntityContainerMapping StorageEntityContainer="PracticeDbModelStoreContainer" CdmEntityContainer="PracticeDbEntities">
     <EntitySetMapping Name="Departments">
       <EntityTypeMapping TypeName="PracticeDbModel.Department">
         <MappingFragment StoreEntitySet="Department">
@@ -16,6 +16,15 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="DepartmentId" ColumnName="DepartmentId" />
           <ScalarProperty Name="Address" ColumnName="Address" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Sites">
+      <EntityTypeMapping TypeName="PracticeDbModel.Site">
+        <MappingFragment StoreEntitySet="Site">
+          <ScalarProperty Name="employeeId" ColumnName="employeeId" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="id" ColumnName="id" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>

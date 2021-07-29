@@ -14,11 +14,19 @@ namespace Practice.Models
     
     public partial class Employee
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Employee()
+        {
+            this.Sites = new HashSet<Site>();
+        }
+    
         public int EmployeeId { get; set; }
         public string Name { get; set; }
         public Nullable<int> DepartmentId { get; set; }
         public string Address { get; set; }
     
         public virtual Department Department { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Site> Sites { get; set; }
     }
 }

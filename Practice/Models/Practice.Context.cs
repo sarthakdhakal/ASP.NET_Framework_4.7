@@ -13,10 +13,10 @@ namespace Practice.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class PracticeDbEntities2 : DbContext
+    public partial class PracticeDbEntities : DbContext
     {
-        public PracticeDbEntities2()
-            : base("name=PracticeDbEntities2")
+        public PracticeDbEntities()
+            : base("name=PracticeDbEntities")
         {
         }
     
@@ -27,5 +27,6 @@ namespace Practice.Models
     
         public virtual DbSet<Department> Departments { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<Site> Sites { get; set; }
     }
 }

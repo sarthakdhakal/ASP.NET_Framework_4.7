@@ -1,0 +1,102 @@
+﻿@model Practice.Models.EmployeeViewData
+<style>
+        .error{
+        color:red;
+        }
+    </style>
+
+
+    
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
+
+<div class="form-group row">
+    <h2 class="text-info pl-3">Add employees</h2>
+</div>
+<form method="post" id="myForm">
+    <div class="row">
+        <div class="col-8">
+            <div class="form-group row">
+
+                <div class="col-4">
+                    <label >Name</label>
+                </div>
+                <div class="col-8">
+
+                    @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @placeholder = "Enter your name here"})
+                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "error"})
+
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col-4">
+                    <label >Address</label>
+                </div>
+                <div class="col-8">
+
+                    @Html.TextBoxFor(model => model.Address, new {@class = "form-control", @placeholder = "Enter your address here"})
+                    @Html.ValidationMessageFor(model => model.Address, "", new {@class = "error"})
+
+                </div>
+            </div>
+
+            <div class="form-group row">
+
+                <div class="col-4">
+                    <label >Department Name</label>
+                </div>
+                <div class="col-8">
+
+                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "-Select data-", new {@class = "form-control"})
+                    @Html.ValidationMessageFor(model => model.DepartmentId, "", new {@class = "error"})
+
+                </div>
+            </div>
+            <div class="form-group row">
+
+                <div class="col-4">
+                    <label >Site Name</label>
+                </div>
+                <div class="col-8">
+
+                    @* @Html.DropDownListFor(odel => model.DepartmentId, ViewBag.DepartmentList as SelectList, new {@class = "form-control"}) *@
+                    @Html.TextBoxFor(model => model.SiteName, new {@class = "form-control", @placeholder = "Enter your site name here"})
+                    @Html.ValidationMessageFor(model => model.SiteName, "", new {@class = "error"})
+
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-8 offset-4 row">
+                    <div class="col">
+                        <input type="reset" name="Create" class="btn btn-info w-100" value="Create" id="btnSubmit">
+                    </div>
+                    <div class="col">
+                        @Html.ActionLink("Index", "Index", null, new {@class = "btn btn-success w-100"})
+
+                    </div>
+                </div> 
+            </div>
+        </div>
+        <div class="col-4">
+            @* Keep this empty *@
+
+        </div>
+
+    </div>
+</form>
+
+<script>
+   
+     $("#btnSubmit").click(function (){
+              var data = $("#myForm").serialize();
+            $.ajax(
+                {
+                type : "POST",
+                url :"/Test/Create",
+                data:data,
+                success: function (){
+                    alert("Data added successfully:" );
+                }}
+            )  })
+</script>

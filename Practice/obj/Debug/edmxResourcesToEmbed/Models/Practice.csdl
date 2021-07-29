@@ -12,11 +12,12 @@
     <Key>
       <PropertyRef Name="EmployeeId" />
     </Key>
-    <Property Name="EmployeeId" Type="Int32" Nullable="false" />
+    <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="DepartmentId" Type="Int32" />
     <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
+    <NavigationProperty Name="Sites" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Employee" ToRole="Site" />
   </EntityType>
   <Association Name="FK_Employee_Department">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -30,12 +31,38 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <EntityContainer Name="PracticeDbEntities2" annotation:LazyLoadingEnabled="true">
+  <EntityContainer Name="PracticeDbEntities" annotation:LazyLoadingEnabled="true">
     <EntitySet Name="Departments" EntityType="Self.Department" />
     <EntitySet Name="Employees" EntityType="Self.Employee" />
     <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
       <End Role="Department" EntitySet="Departments" />
       <End Role="Employee" EntitySet="Employees" />
     </AssociationSet>
+    <EntitySet Name="Sites" EntityType="PracticeDbModel.Site" />
+    <AssociationSet Name="FK_Site_Employee" Association="PracticeDbModel.FK_Site_Employee">
+      <End Role="Employee" EntitySet="Employees" />
+      <End Role="Site" EntitySet="Sites" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Site">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="employeeId" Type="Int32" />
+    <NavigationProperty Name="Employee" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Site" ToRole="Employee" />
+  </EntityType>
+  <Association Name="FK_Site_Employee">
+    <End Type="PracticeDbModel.Employee" Role="Employee" Multiplicity="0..1" />
+    <End Type="PracticeDbModel.Site" Role="Site" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Employee">
+        <PropertyRef Name="EmployeeId" />
+      </Principal>
+      <Dependent Role="Site">
+        <PropertyRef Name="employeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>
