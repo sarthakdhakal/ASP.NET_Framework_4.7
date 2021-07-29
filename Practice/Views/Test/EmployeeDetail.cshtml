@@ -1,0 +1,26 @@
+﻿@model Practice.Models.EmployeeViewData
+
+@{
+    ViewBag.Title = "EmployeeDetail";
+ 
+}
+
+@if(Model != null){
+    <div class="container">
+        <table class="table table-striped" style="width: 60%">
+            <tr>
+                <td>EmployeeName</td>
+                <td>@Model.Name</td>
+            </tr>
+            <tr>
+                <td>Address</td>
+                <td>@Model.Address</td>
+            </tr>
+            <tr>
+                <td>Department Name</td>
+                <td>@Model.DepartmentName</td>
+            </tr>
+
+        </table>
+    </div>
+}

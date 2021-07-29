@@ -1,0 +1,50 @@
+﻿@model IEnumerable<Practice.Models.EmployeeViewData>
+@{
+    ViewBag.Title = "Index";
+}
+
+<table class="table table-striped">
+    <tr>
+
+        <th>
+            Name
+        </th>
+
+        <th>
+            Address
+        </th>
+        <th>
+            DepartmentId
+        </th>
+        <th>
+            DepartmentName
+        </th>
+
+
+    </tr>
+    <tbody>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+                <tr>
+                    <td>
+                    @* <a href="/Test/EmployeeDetail?employeeId=@item.EmployeeId"> @item.Name</a> *@
+                        @Html.ActionLink(item.Name, "EmployeeDetail", new {employeeId = item.EmployeeId})
+                    </td>
+
+                <td>
+                    @item.Address
+                </td>
+                <td>
+                    @item.DepartmentId
+                </td>
+                <td>
+                    @item.DepartmentName
+                </td>
+
+            </tr>
+        }
+    }
+    </tbody>
+</table>
