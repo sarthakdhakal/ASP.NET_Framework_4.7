@@ -55,7 +55,7 @@
                         @item.DepartmentName
                     </td>
                     <td>
-                        
+                        @Html.ActionLink("Delete", "Delete" , new{item.EmployeeId}, new  {@class="btn btn-danger"})
                     </td>
                 </tr>
             }

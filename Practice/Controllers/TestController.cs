@@ -92,5 +92,23 @@ namespace Practice.Controllers
 
             return View(employeeViewData);
         }
+        
+        public ActionResult Delete(int? employeeId)
+        {
+            if (employeeId == null || employeeId == 0)
+            {
+                return HttpNotFound();
+            }
+
+            var obj=db.Employees.Find(employeeId);
+            if (obj == null)
+            {
+                return HttpNotFound();
+            }
+
+            db.Employees.Remove(obj);
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
     }
 }

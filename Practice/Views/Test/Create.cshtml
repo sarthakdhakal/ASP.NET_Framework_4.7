@@ -6,97 +6,129 @@
     </style>
 
 
-    
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
-    <script src="~/Scripts/jquery-3.4.1.js"></script>
+<script src="~/Scripts/jquery-3.4.1.js"></script>
+ <link rel="stylesheet" href="~/Content/bootstrap.css">
+<script src="~/Scripts/bootstrap.js"></script>
 
-<div class="form-group row">
-    <h2 class="text-info pl-3">Add employees</h2>
-</div>
-<form method="post" id="myForm">
-    <div class="row">
-        <div class="col-8">
-            <div class="form-group row">
+<div class="container" style="width:60%;margin-top:2%">
 
-                <div class="col-4">
-                    <label >Name</label>
-                </div>
-                <div class="col-8">
+    <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#myModal">Open Modal</a>
 
-                    @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @placeholder = "Enter your name here"})
-                    @Html.ValidationMessageFor(model => model.Name, "", new {@class = "error"})
+    <div class="modal fade" id="myModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+
+                <div class="modal-header">
+                    <a href="#" class="close" data-dismiss="modal">&times;</a>
+                    <h3 class="modal-title">Practice MVC</h3>
 
                 </div>
-            </div>
-            <div class="form-group row">
-
-                <div class="col-4">
-                    <label >Address</label>
-                </div>
-                <div class="col-8">
-
-                    @Html.TextBoxFor(model => model.Address, new {@class = "form-control", @placeholder = "Enter your address here"})
-                    @Html.ValidationMessageFor(model => model.Address, "", new {@class = "error"})
-
-                </div>
-            </div>
-
-            <div class="form-group row">
-
-                <div class="col-4">
-                    <label >Department Name</label>
-                </div>
-                <div class="col-8">
-
-                    @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "-Select data-", new {@class = "form-control"})
-                    @Html.ValidationMessageFor(model => model.DepartmentId, "", new {@class = "error"})
-
-                </div>
-            </div>
-            <div class="form-group row">
-
-                <div class="col-4">
-                    <label >Site Name</label>
-                </div>
-                <div class="col-8">
-
-                    @* @Html.DropDownListFor(odel => model.DepartmentId, ViewBag.DepartmentList as SelectList, new {@class = "form-control"}) *@
-                    @Html.TextBoxFor(model => model.SiteName, new {@class = "form-control", @placeholder = "Enter your site name here"})
-                    @Html.ValidationMessageFor(model => model.SiteName, "", new {@class = "error"})
-
-                </div>
-            </div>
-            <div class="form-group row">
-                <div class="col-8 offset-4 row">
-                    <div class="col">
-                        <input type="reset" name="Create" class="btn btn-info w-100" value="Create" id="btnSubmit">
+                <div class="modal-body">
+                    <div class="form-group row">
+                        <h2 class="text-info pl-3">Add employees</h2>
                     </div>
-                    <div class="col">
-                        @Html.ActionLink("Index", "Index", null, new {@class = "btn btn-success w-100"})
+                    <form method="post" id="myForm">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group row">
 
-                    </div>
-                </div> 
+                                    <div class="col-4">
+                                        <label >Name</label>
+                                    </div>
+                                    <div class="col-8">
+
+                                        @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @placeholder = "Enter your name here"})
+                                        @Html.ValidationMessageFor(model => model.Name, "", new {@class = "error"})
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+
+                                    <div class="col-4">
+                                        <label >Address</label>
+                                    </div>
+                                    <div class="col-8">
+
+                                        @Html.TextBoxFor(model => model.Address, new {@class = "form-control", @placeholder = "Enter your address here"})
+                                        @Html.ValidationMessageFor(model => model.Address, "", new {@class = "error"})
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group row">
+
+                                    <div class="col-4">
+                                        <label >Department Name</label>
+                                    </div>
+                                    <div class="col-8">
+
+                                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "-Select data-", new {@class = "form-control"})
+                                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new {@class = "error"})
+
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+
+                                    <div class="col-4">
+                                        <label >Site Name</label>
+                                    </div>
+                                    <div class="col-8">
+
+                                        @* @Html.DropDownListFor(odel => model.DepartmentId, ViewBag.DepartmentList as SelectList, new {@class = "form-control"}) *@
+                                        @Html.TextBoxFor(model => model.SiteName, new {@class = "form-control", @placeholder = "Enter your site name here"})
+                                        @Html.ValidationMessageFor(model => model.SiteName, "", new {@class = "error"})
+
+                                    </div>
+                                </div>
+                              
+                            </div>
+                            <div class="col-4">
+                                @* Keep this empty *@
+
+                            </div>
+
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+                    <input type="reset" value="Submit" class="btn btn-success" id="btnSubmit"/>
+
+                </div>
+
             </div>
-        </div>
-        <div class="col-4">
-            @* Keep this empty *@
 
         </div>
 
     </div>
-</form>
+
+</div>
 
 <script>
    
-     $("#btnSubmit").click(function (){
-              var data = $("#myForm").serialize();
-            $.ajax(
-                {
-                type : "POST",
-                url :"/Test/Create",
-                data:data,
-                success: function (){
-                    alert("Data added successfully:" );
-                }}
-            )  })
+   $(document).ready(function () {
+     
+     
+             $("#btnSubmit").click(function () {
+
+                 $("#loaderDiv").show();
+
+                 var myFormData = $("#myForm").serialize();
+     
+                 $.ajax({
+     
+                     type: "POST",
+                     url:"/Test/Create",
+                     data: myFormData,
+                     success: function () {
+                         $("#loaderDiv").hide();
+                         $("#myModal").modal("hide");
+                     
+                     }
+                     
+                 })
+             })
+     
+         })
 </script>
