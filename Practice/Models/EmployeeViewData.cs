@@ -17,6 +17,7 @@ namespace Practice.Models
         [Required(ErrorMessage="Address is necessary")]
         public string Address { get; set; }
         
+        public Nullable<bool> IsDeleted { get; set; }
         public virtual Department Department { get; set; }
    
         public string DepartmentName { get; internal set; }

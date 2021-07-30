@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Policy;
 using System.Web;
 using System.Web.Mvc;
+using Site = Practice.Models.Site;
 
 namespace Practice.Controllers
 {
@@ -29,6 +30,11 @@ namespace Practice.Controllers
             
             }).ToList();
      
+            // List<EmployeeViewData> listEmp = db.Employees.Where(x => x.IsDeleted == false).Select(x => new EmployeeViewData { Name = x.Name, DepartmentName = x.Department.DepartmentName, Address = x.Address, EmployeeId = x.EmployeeId }).ToList();
+            //
+            // ViewBag.EmployeeList = listEmp;
+            //
+            // return View();
 
             return View(employeeViewDatas);
         }
@@ -83,14 +89,12 @@ namespace Practice.Controllers
                 return HttpNotFound();
             }
 
-            Employee employee = db.Employees.SingleOrDefault(x => x.EmployeeId == employeeId);
-            EmployeeViewData employeeViewData = new EmployeeViewData();
+            List<EmployeeViewData> listEmp = db.Employees.Where(x => x.IsDeleted == false && x.EmployeeId == employeeId).Select(x => new EmployeeViewData { Name = x.Name, DepartmentName = x.Department.DepartmentName, Address = x.Address, EmployeeId = x.EmployeeId }).ToList();
 
-            employeeViewData.Name = employee.Name;
-            employeeViewData.Address = employee.Address;
-            employeeViewData.DepartmentName = employee.Department.DepartmentName;
+            ViewBag.EmployeeList = listEmp;
 
-            return View(employeeViewData);
+            return PartialView("DetailsPartial");
+            
         }
         
         public ActionResult Delete(int? employeeId)
@@ -99,16 +103,56 @@ namespace Practice.Controllers
             {
                 return HttpNotFound();
             }
-
+        
             var obj=db.Employees.Find(employeeId);
             if (obj == null)
             {
                 return HttpNotFound();
             }
-
+        
             db.Employees.Remove(obj);
             db.SaveChanges();
             return RedirectToAction("Index");
         }
+        
+        // public JsonResult DeleteEmployee(int EmployeeId)
+        // {
+        //  
+        //
+        //     bool result = false;
+        //     Employee emp = db.Employees.SingleOrDefault(x => x.IsDeleted == false && x.EmployeeId == EmployeeId);
+        //     if (emp != null)
+        //     {
+        //         emp.IsDeleted = true;
+        //         db.SaveChanges();
+        //         result = true;
+        //     }
+        //
+        //     return Json(result, JsonRequestBehavior.AllowGet);
+        // }
+        public ActionResult AddEditEmployee(int EmployeeId)
+        {
+        
+            List<Department> list = db.Departments.ToList();
+            ViewBag.DepartmentList = new SelectList(list, "DepartmentId", "DepartmentName");
+
+            EmployeeViewData model = new EmployeeViewData();
+
+            if (EmployeeId > 0) {
+
+                Employee emp = db.Employees.SingleOrDefault(x => x.EmployeeId == EmployeeId );
+                model.EmployeeId = emp.EmployeeId;
+                model.DepartmentId = emp.DepartmentId;
+                model.Name = emp.Name;
+                model.Address = emp.Address;
+                Site site = db.Sites.SingleOrDefault(x => x.employeeId == EmployeeId);
+                model.SiteName = site.name;
+
+            }
+
+     
+            return PartialView("AddEdit", model);
+        }
+
     }
 }

@@ -18,6 +18,7 @@
     <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
     <NavigationProperty Name="Sites" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Employee" ToRole="Site" />
+    <Property Name="IsDeleted" Type="Boolean" />
   </EntityType>
   <Association Name="FK_Employee_Department">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />

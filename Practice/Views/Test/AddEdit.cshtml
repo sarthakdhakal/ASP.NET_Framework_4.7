@@ -1,0 +1,120 @@
+﻿@model Practice.Models.EmployeeViewData
+<div class="modal-header">
+    <a href="#" class="close" data-dismiss="modal">&times;</a>
+    @if (Model.EmployeeId > 0)
+    {
+        <h3 class="modal-title">Edit employee </h3>
+    }
+    else
+    {
+        <h3 class="modal-title">Add employee </h3>
+    }
+
+</div>
+<div>
+
+    <form method="post" id="myForm">
+        <div class="row glyphicon-align-center">
+            <div class="col">
+           
+
+                    <div class="col">
+                        <label >Name</label>
+                    </div>
+                    <div class="col">
+
+                        @Html.TextBoxFor(model => model.Name, new {@class = "form-control", @placeholder = "Enter your name here"})
+                        @Html.ValidationMessageFor(model => model.Name, "", new {@class = "error"})
+
+                    </div>
+          
+   
+
+                    <div class="col">
+                        <label >Address</label>
+                    </div>
+                    <div class="col">
+
+                        @Html.TextBoxFor(model => model.Address, new {@class = "form-control", @placeholder = "Enter your address here"})
+                        @Html.ValidationMessageFor(model => model.Address, "", new {@class = "error"})
+
+                    </div>
+              
+
+            
+
+                    <div class="col">
+                        <label >Department Name</label>
+                    </div>
+                    <div class="col">
+
+                        @Html.DropDownListFor(model => model.DepartmentId, ViewBag.DepartmentList as SelectList, "-Select data-", new {@class = "form-control"})
+                        @Html.ValidationMessageFor(model => model.DepartmentId, "", new {@class = "error"})
+
+                    </div>
+       
+                    <div class="col">
+                        <label >Site Name</label>
+                    </div>
+                    <div class="col">
+
+                        @* @Html.DropDownListFor(odel => model.DepartmentId, ViewBag.DepartmentList as SelectList, new {@class = "form-control"}) *@
+                        @Html.TextBoxFor(model => model.SiteName, new {@class = "form-control", @placeholder = "Enter your site name here"})
+                        @Html.ValidationMessageFor(model => model.SiteName, "", new {@class = "error"})
+
+                    </div>
+                </div>
+
+            </div>
+            <div class="col">
+                @* Keep this empty *@
+
+            </div>
+
+  
+    </form>
+    <div class="modal-footer">
+        <a href="#" class="btn btn-default" data-dismiss="modal">Cancel</a>
+        <a href="#" id="btnSubmit" class="btn btn-success btn-block">
+            @if (Model.EmployeeId > 0)
+            {<span>Update</span>
+            }
+            else
+            {<span>Save</span>}
+        </a>
+
+    </div>
+
+
+</div>
+
+
+<script>
+
+    $(document).ready(function () {
+
+        $("#btnSubmit").click(function () {
+
+     
+
+            var myformdata = $("#myForm").serialize();
+           
+            $.ajax({
+
+                type: "POST",
+                url: "/Test/Index",
+                data: myformdata,
+                success: function () {
+                  
+                    $("#myModal").modal("hide");
+                    window.location.href = "/Test/Index";
+
+                }
+
+            })
+        })
+
+    })
+
+
+</script>

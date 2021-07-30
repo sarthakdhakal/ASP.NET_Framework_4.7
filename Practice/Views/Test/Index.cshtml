@@ -9,8 +9,8 @@
             <h2 class="text-primary">List of data</h2>
         </div>
         <div class="col-6 text-right">
-            
-            @Html.ActionLink("Create New", "Create", null, new {@class = "btn btn-primary"})
+            <a href="#" class="btn btn-primary" onclick="AddEditEmployee(0)">Create New</a>
+            @* @Html.ActionLink("Create New", "Create", null, new {@class = "btn btn-primary"}) *@
         </div>
     </div>
     <br><br>
@@ -54,9 +54,17 @@
                     <td>
                         @item.DepartmentName
                     </td>
+
                     <td>
-                        @Html.ActionLink("Delete", "Delete" , new{item.EmployeeId}, new  {@class="btn btn-danger"})
+                        <a href="#" class="btn btn-success" onclick="ShowEmployee(@item.EmployeeId)">
+                            <i class="glyphicon glyphicon-eye-open"></i>
+                        </a>
+                        <a href="#" class="btn btn-success" onclick="AddEditEmployee(@item.EmployeeId)">
+                            <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
                     </td>
+
+
                 </tr>
             }
             </tbody>
@@ -67,3 +75,76 @@
         <h2>No application type exists</h2>
     }
 </div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <a href="" class="close" data-dismiss="modal">&times;</a>
+                <h3 class="modal-title">Details of the Employee</h3>
+            </div>
+            <div class="modal-body" id="myModalBodyDiv">
+
+
+            </div>
+            <div class="modal-footer">
+                <a href="" class="btn btn-default" data-dismiss="modal">Cancel</a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="modal fade" id="myModal1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+           
+            <div class="modal-body" id="myModalBodyDiv1">
+
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+</div>
+<div>
+    <input type="hidden" id="hiddenEmployeeId"/>
+
+
+</div>
+
+<script>
+   
+   
+   
+       var ShowEmployee= function(employeeId){
+       
+           var url="/Test/EmployeeDetail?EmployeeId="+employeeId;
+   
+           $("#myModalBodyDiv").load(url,function(){
+               $("#myModal").modal("show");
+           
+           })
+   
+ 
+       }
+       
+           var AddEditEmployee=function(employeeId){
+           
+               var url="/Test/AddEditEmployee?EmployeeId="+employeeId;
+       
+               $("#myModalBodyDiv1").load(url,function(){
+                   $("#myModal1").modal("show");
+               
+               })
+       
+           }
+
+</script>
