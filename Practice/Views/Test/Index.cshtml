@@ -59,8 +59,12 @@
                         <a href="#" class="btn btn-success" onclick="ShowEmployee(@item.EmployeeId)">
                             <i class="glyphicon glyphicon-eye-open"></i>
                         </a>
-                        <a href="#" class="btn btn-success" onclick="AddEditEmployee(@item.EmployeeId)">
+                        <a href="#" class="btn btn-primary" onclick="AddEditEmployee(@item.EmployeeId)">
                             <i class="glyphicon glyphicon-pencil"></i>
+                        </a>
+                        @* @Html.ActionLink("Delete","Delete", new {employeeId= item.EmployeeId}, new {@class="glyphicon glyphicon-remove"}) *@
+                        <a href="#" class="btn btn-danger" onclick="DeleteEmployee(@item.EmployeeId)">
+                            <i class="glyphicon glyphicon-remove"></i>
                         </a>
                     </td>
 
@@ -102,7 +106,7 @@
 <div class="modal fade" id="myModal1">
     <div class="modal-dialog">
         <div class="modal-content">
-           
+
             <div class="modal-body" id="myModalBodyDiv1">
 
 
@@ -146,5 +150,26 @@
                })
        
            }
+           var DeleteEmployee = function (employeeId) {
+            
+                 
+
+
+                   
+            
+                    $.ajax({
+            
+                        type: "POST",
+                        url: "/Test/Delete?employeeId="+employeeId,
+                      
+                        success: function (response) {
+               
+                            alert(response.success);
+                            window.location.href = "/Test/Index";
+                        }
+            
+                    })
+
+}
 
 </script>
