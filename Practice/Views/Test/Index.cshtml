@@ -4,7 +4,7 @@
 }
 
 <div class="container p-3">
-    <div class="row pt-4">
+    <dv class="row pt-4">
         <div class="col-6">
             <h2 class="text-primary">List of data</h2>
         </div>
@@ -12,65 +12,66 @@
             <a href="#" class="btn btn-primary" onclick="AddEditEmployee(0)">Create New</a>
             @* @Html.ActionLink("Create New", "Create", null, new {@class = "btn btn-primary"}) *@
         </div>
-    </div>
+    </dv>
     <br><br>
     @if (Model != null)
     {
         <table class="table table-bordered table-striped">
             <thead>
-            <tr>
-                <th>
-                    Name
-                </th>
+                <tr>
+                    <th>
+                        Name
+                    </th>
 
-                <th>
-                    Address
-                </th>
-                <th>
-                    DepartmentId
-                </th>
-                <th>
-                    DepartmentName
-                </th>
-                <th></th>
-            </tr>
+                    <th>
+                        Address
+                    </th>
+                    <th>
+                        DepartmentId
+                    </th>
+                    <th>
+                        DepartmentName
+                    </th>
+                    <th></th>
+                </tr>
             </thead>
             <tbody>
 
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @* <a href="/Test/EmployeeDetail?employeeId=@item.EmployeeId"> @item.Name</a> *@
-                        @Html.ActionLink(item.Name, "EmployeeDetail", new {employeeId = item.EmployeeId})
-                    </td>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @* <a href="/Test/EmployeeDetail?employeeId=@item.EmployeeId"> @item.Name</a> *@
+                            @Html.ActionLink(item.Name, "EmployeeDetail", new {employeeId = item.EmployeeId})
+                        </td>
 
-                    <td>
-                        @item.Address
-                    </td>
-                    <td>
-                        @item.DepartmentId
-                    </td>
-                    <td>
-                        @item.DepartmentName
-                    </td>
+                        <td>
+                            @item.Address
+                        </td>
+                        <td>
+                            @item.DepartmentId
+                        </td>
+                        <td>
+                            @item.DepartmentName
+                        </td>
 
-                    <td>
-                        <a href="#" class="btn btn-success" onclick="ShowEmployee(@item.EmployeeId)">
-                            <i class="glyphicon glyphicon-eye-open"></i>
-                        </a>
-                        <a href="#" class="btn btn-primary" onclick="AddEditEmployee(@item.EmployeeId)">
-                            <i class="glyphicon glyphicon-pencil"></i>
-                        </a>
-                        @* @Html.ActionLink("Delete","Delete", new {employeeId= item.EmployeeId}, new {@class="glyphicon glyphicon-remove"}) *@
-                        <a href="#" class="btn btn-danger" onclick="DeleteEmployee(@item.EmployeeId)">
-                            <i class="glyphicon glyphicon-remove"></i>
-                        </a>
-                    </td>
+                        <td>
+                            <a href="#" class="btn btn-success" onclick="ShowEmployee(@item.EmployeeId)">
+                                <i class="glyphicon glyphicon-eye-open"></i>
+                            </a>
+                            <a href="#" class="btn btn-primary" onclick="AddEditEmployee(@item.EmployeeId)">
+                                <i class="glyphicon glyphicon-pencil"></i>
+                            </a>
+                            @* @Html.ActionLink("Delete","Delete", new {employeeId= item.EmployeeId}, new {@class="glyphicon
+                                glyphicon-remove"}) *@
+                            <a href="#" class="btn btn-danger" onclick="DeleteEmployee(@item.EmployeeId)">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </a>
+                        </td>
 
 
-                </tr>
-            }
+                    </tr>
+                }
             </tbody>
         </table>
     }
@@ -119,57 +120,57 @@
 
 </div>
 <div>
-    <input type="hidden" id="hiddenEmployeeId"/>
+    <input type="hidden" id="hiddenEmployeeId" />
 
 
 </div>
 
 <script>
-   
-   
-   
-       var ShowEmployee= function(employeeId){
-       
-           var url="/Test/EmployeeDetail?EmployeeId="+employeeId;
-   
-           $("#myModalBodyDiv").load(url,function(){
-               $("#myModal").modal("show");
-           
-           })
-   
- 
-       }
-       
-           var AddEditEmployee=function(employeeId){
-           
-               var url="/Test/AddEditEmployee?EmployeeId="+employeeId;
-       
-               $("#myModalBodyDiv1").load(url,function(){
-                   $("#myModal1").modal("show");
-               
-               })
-       
-           }
-           var DeleteEmployee = function (employeeId) {
-            
-                 
 
 
-                   
-            
-                    $.ajax({
-            
-                        type: "POST",
-                        url: "/Test/Delete?employeeId="+employeeId,
-                      
-                        success: function (response) {
-               
-                            alert(response.success);
-                            window.location.href = "/Test/Index";
-                        }
-            
-                    })
 
-}
+    var ShowEmployee = function (employeeId) {
+
+        var url = "/Test/EmployeeDetail?EmployeeId=" + employeeId;
+
+        $("#myModalBodyDiv").load(url, function () {
+            $("#myModal").modal("show");
+
+        })
+
+
+    }
+
+    var AddEditEmployee = function (employeeId) {
+
+        var url = "/Test/AddEditEmployee?EmployeeId=" + employeeId;
+
+        $("#myModalBodyDiv1").load(url, function ()x {
+            $("#myModal1").modal("show");
+
+        })
+
+    }
+    var DeleteEmployee = function (employeeId) {
+
+
+
+
+
+
+        $.ajax({
+
+            type: "POST",
+            url: "/Test/Delete?employeeId=" + employeeId,
+
+            success: function (response) {
+
+                alert(response.success);
+                window.location.href = "/Test/Index";
+            }
+
+        })
+
+    }
 
 </script>

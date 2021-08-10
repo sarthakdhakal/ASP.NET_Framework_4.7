@@ -5,7 +5,7 @@
       <PropertyRef Name="DepartmentId" />
     </Key>
     <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-    <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="DepartmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
     <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
   </EntityType>
   <EntityType Name="Employee">
@@ -15,7 +15,7 @@
     <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="DepartmentId" Type="Int32" />
-    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
     <NavigationProperty Name="Sites" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Employee" ToRole="Site" />
     <Property Name="IsDeleted" Type="Boolean" />
@@ -44,13 +44,19 @@
       <End Role="Employee" EntitySet="Employees" />
       <End Role="Site" EntitySet="Sites" />
     </AssociationSet>
+    <EntitySet Name="SiteUsers" EntityType="PracticeDbModel.SiteUser" />
+    <EntitySet Name="UserRoles" EntityType="PracticeDbModel.UserRole" />
+    <AssociationSet Name="FK_SiteUser_UserRole" Association="PracticeDbModel.FK_SiteUser_UserRole">
+      <End Role="UserRole" EntitySet="UserRoles" />
+      <End Role="SiteUser" EntitySet="SiteUsers" />
+    </AssociationSet>
   </EntityContainer>
   <EntityType Name="Site">
     <Key>
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
     <Property Name="employeeId" Type="Int32" />
     <NavigationProperty Name="Employee" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Site" ToRole="Employee" />
   </EntityType>
@@ -63,6 +69,38 @@
       </Principal>
       <Dependent Role="Site">
         <PropertyRef Name="employeeId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityType Name="SiteUser">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+    <Property Name="RoleId" Type="Int32" />
+    <NavigationProperty Name="UserRole" Relationship="PracticeDbModel.FK_SiteUser_UserRole" FromRole="SiteUser" ToRole="UserRole" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="SiteUsers" Relationship="PracticeDbModel.FK_SiteUser_UserRole" FromRole="UserRole" ToRole="SiteUser" />
+  </EntityType>
+  <Association Name="FK_SiteUser_UserRole">
+    <End Type="PracticeDbModel.UserRole" Role="UserRole" Multiplicity="0..1" />
+    <End Type="PracticeDbModel.SiteUser" Role="SiteUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="SiteUser">
+        <PropertyRef Name="RoleId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

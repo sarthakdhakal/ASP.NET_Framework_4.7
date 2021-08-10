@@ -5,7 +5,7 @@
       <PropertyRef Name="DepartmentId" />
     </Key>
     <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
+    <Property Name="DepartmentName" Type="nvarchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="Employee">
     <Key>
@@ -14,7 +14,7 @@
     <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" />
     <Property Name="DepartmentId" Type="int" />
-    <Property Name="Address" Type="varchar" MaxLength="50" />
+    <Property Name="Address" Type="varchar" MaxLength="150" />
     <Property Name="IsDeleted" Type="bit" />
   </EntityType>
   <EntityType Name="Site">
@@ -22,8 +22,26 @@
       <PropertyRef Name="id" />
     </Key>
     <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="name" Type="varchar" MaxLength="50" />
     <Property Name="employeeId" Type="int" />
+    <Property Name="name" Type="nvarchar" MaxLength="150" />
+  </EntityType>
+  <EntityType Name="SiteUser">
+    <Key>
+      <PropertyRef Name="UserId" />
+    </Key>
+    <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+    <Property Name="EmailId" Type="nvarchar" MaxLength="50" />
+    <Property Name="Password" Type="nvarchar" MaxLength="50" />
+    <Property Name="Address" Type="nvarchar" MaxLength="150" />
+    <Property Name="RoleId" Type="int" />
+  </EntityType>
+  <EntityType Name="UserRole">
+    <Key>
+      <PropertyRef Name="RoleId" />
+    </Key>
+    <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
   </EntityType>
   <Association Name="FK_Employee_Department">
     <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -37,7 +55,7 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_Site_Employee">
+  <Association Name="FK_Sites_Employee">
     <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
     <End Role="Site" Type="Self.Site" Multiplicity="*" />
     <ReferentialConstraint>
@@ -49,17 +67,35 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SiteUser_UserRole">
+    <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+    <End Role="SiteUser" Type="Self.SiteUser" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="UserRole">
+        <PropertyRef Name="RoleId" />
+      </Principal>
+      <Dependent Role="SiteUser">
+        <PropertyRef Name="RoleId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <EntityContainer Name="PracticeDbModelStoreContainer">
     <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Site" EntityType="Self.Site" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SiteUser" EntityType="Self.SiteUser" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
       <End Role="Department" EntitySet="Department" />
       <End Role="Employee" EntitySet="Employee" />
     </AssociationSet>
-    <AssociationSet Name="FK_Site_Employee" Association="Self.FK_Site_Employee">
+    <AssociationSet Name="FK_Sites_Employee" Association="Self.FK_Sites_Employee">
       <End Role="Employee" EntitySet="Employee" />
       <End Role="Site" EntitySet="Site" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SiteUser_UserRole" Association="Self.FK_SiteUser_UserRole">
+      <End Role="UserRole" EntitySet="UserRole" />
+      <End Role="SiteUser" EntitySet="SiteUser" />
     </AssociationSet>
   </EntityContainer>
 </Schema>

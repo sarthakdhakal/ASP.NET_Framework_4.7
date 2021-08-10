@@ -158,6 +158,12 @@
     <Compile Include="Models\Site.cs">
       <DependentUpon>Practice.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SiteUser.cs">
+      <DependentUpon>Practice.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserRole.cs">
+      <DependentUpon>Practice.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -10,6 +10,9 @@
         <AssociationConnector Association="PracticeDbModel.FK_Employee_Department" ManuallyRouted="false" />
         <EntityTypeShape EntityType="PracticeDbModel.Site" Width="1.5" PointX="5.25" PointY="1.125" />
         <AssociationConnector Association="PracticeDbModel.FK_Site_Employee" />
+        <EntityTypeShape EntityType="PracticeDbModel.SiteUser" Width="1.5" PointX="3" PointY="5" />
+        <EntityTypeShape EntityType="PracticeDbModel.UserRole" Width="1.5" PointX="0.75" PointY="5.375" />
+        <AssociationConnector Association="PracticeDbModel.FK_SiteUser_UserRole" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

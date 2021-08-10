@@ -10,7 +10,7 @@
             <PropertyRef Name="DepartmentId" />
           </Key>
           <Property Name="DepartmentId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="DepartmentName" Type="varchar" MaxLength="50" />
+          <Property Name="DepartmentName" Type="nvarchar" MaxLength="100" />
         </EntityType>
         <EntityType Name="Employee">
           <Key>
@@ -19,7 +19,7 @@
           <Property Name="EmployeeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" />
           <Property Name="DepartmentId" Type="int" />
-          <Property Name="Address" Type="varchar" MaxLength="50" />
+          <Property Name="Address" Type="varchar" MaxLength="150" />
           <Property Name="IsDeleted" Type="bit" />
         </EntityType>
         <EntityType Name="Site">
@@ -27,8 +27,26 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="name" Type="varchar" MaxLength="50" />
           <Property Name="employeeId" Type="int" />
+          <Property Name="name" Type="nvarchar" MaxLength="150" />
+        </EntityType>
+        <EntityType Name="SiteUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
+          <Property Name="EmailId" Type="nvarchar" MaxLength="50" />
+          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="Address" Type="nvarchar" MaxLength="150" />
+          <Property Name="RoleId" Type="int" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="RoleName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <Association Name="FK_Employee_Department">
           <End Role="Department" Type="Self.Department" Multiplicity="0..1" />
@@ -42,7 +60,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Site_Employee">
+        <Association Name="FK_Sites_Employee">
           <End Role="Employee" Type="Self.Employee" Multiplicity="0..1" />
           <End Role="Site" Type="Self.Site" Multiplicity="*" />
           <ReferentialConstraint>
@@ -54,17 +72,35 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SiteUser_UserRole">
+          <End Role="UserRole" Type="Self.UserRole" Multiplicity="0..1" />
+          <End Role="SiteUser" Type="Self.SiteUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="SiteUser">
+              <PropertyRef Name="RoleId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <EntityContainer Name="PracticeDbModelStoreContainer">
           <EntitySet Name="Department" EntityType="Self.Department" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Employee" EntityType="Self.Employee" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Site" EntityType="Self.Site" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SiteUser" EntityType="Self.SiteUser" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Employee_Department" Association="Self.FK_Employee_Department">
             <End Role="Department" EntitySet="Department" />
             <End Role="Employee" EntitySet="Employee" />
           </AssociationSet>
-          <AssociationSet Name="FK_Site_Employee" Association="Self.FK_Site_Employee">
+          <AssociationSet Name="FK_Sites_Employee" Association="Self.FK_Sites_Employee">
             <End Role="Employee" EntitySet="Employee" />
             <End Role="Site" EntitySet="Site" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SiteUser_UserRole" Association="Self.FK_SiteUser_UserRole">
+            <End Role="UserRole" EntitySet="UserRole" />
+            <End Role="SiteUser" EntitySet="SiteUser" />
           </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
@@ -76,7 +112,7 @@
             <PropertyRef Name="DepartmentId" />
           </Key>
           <Property Name="DepartmentId" Type="Int32" Nullable="false" />
-          <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DepartmentName" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Employees" Relationship="Self.FK_Employee_Department" FromRole="Department" ToRole="Employee" />
         </EntityType>
         <EntityType Name="Employee">
@@ -86,7 +122,7 @@
           <Property Name="EmployeeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="DepartmentId" Type="Int32" />
-          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="false" />
           <NavigationProperty Name="Department" Relationship="Self.FK_Employee_Department" FromRole="Employee" ToRole="Department" />
           <NavigationProperty Name="Sites" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Employee" ToRole="Site" />
           <Property Name="IsDeleted" Type="Boolean" />
@@ -115,13 +151,19 @@
             <End Role="Employee" EntitySet="Employees" />
             <End Role="Site" EntitySet="Sites" />
           </AssociationSet>
+          <EntitySet Name="SiteUsers" EntityType="PracticeDbModel.SiteUser" />
+          <EntitySet Name="UserRoles" EntityType="PracticeDbModel.UserRole" />
+          <AssociationSet Name="FK_SiteUser_UserRole" Association="PracticeDbModel.FK_SiteUser_UserRole">
+            <End Role="UserRole" EntitySet="UserRoles" />
+            <End Role="SiteUser" EntitySet="SiteUsers" />
+          </AssociationSet>
         </EntityContainer>
         <EntityType Name="Site">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="name" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
           <Property Name="employeeId" Type="Int32" />
           <NavigationProperty Name="Employee" Relationship="PracticeDbModel.FK_Site_Employee" FromRole="Site" ToRole="Employee" />
         </EntityType>
@@ -134,6 +176,38 @@
             </Principal>
             <Dependent Role="Site">
               <PropertyRef Name="employeeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SiteUser">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Address" Type="String" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="RoleId" Type="Int32" />
+          <NavigationProperty Name="UserRole" Relationship="PracticeDbModel.FK_SiteUser_UserRole" FromRole="SiteUser" ToRole="UserRole" />
+        </EntityType>
+        <EntityType Name="UserRole">
+          <Key>
+            <PropertyRef Name="RoleId" />
+          </Key>
+          <Property Name="RoleId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="RoleName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="SiteUsers" Relationship="PracticeDbModel.FK_SiteUser_UserRole" FromRole="UserRole" ToRole="SiteUser" />
+        </EntityType>
+        <Association Name="FK_SiteUser_UserRole">
+          <End Type="PracticeDbModel.UserRole" Role="UserRole" Multiplicity="0..1" />
+          <End Type="PracticeDbModel.SiteUser" Role="SiteUser" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserRole">
+              <PropertyRef Name="RoleId" />
+            </Principal>
+            <Dependent Role="SiteUser">
+              <PropertyRef Name="RoleId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -168,6 +242,26 @@
                 <ScalarProperty Name="employeeId" ColumnName="employeeId" />
                 <ScalarProperty Name="name" ColumnName="name" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SiteUsers">
+            <EntityTypeMapping TypeName="PracticeDbModel.SiteUser">
+              <MappingFragment StoreEntitySet="SiteUser">
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserRoles">
+            <EntityTypeMapping TypeName="PracticeDbModel.UserRole">
+              <MappingFragment StoreEntitySet="UserRole">
+                <ScalarProperty Name="RoleName" ColumnName="RoleName" />
+                <ScalarProperty Name="RoleId" ColumnName="RoleId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
